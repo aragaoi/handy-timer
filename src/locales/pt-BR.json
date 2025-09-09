@@ -1,0 +1,39 @@
+{
+  "app": {
+    "title": "Timer com som suave"
+  },
+  "controls": {
+    "interval": "Intervalo:",
+    "minutes": "min",
+    "seconds": "seg",
+    "volume": "Volume",
+    "maxTime": "Tempo máximo (opcional):",
+    "maxMinutes": "Máx. Minutos",
+    "maxSeconds": "Máx. Segundos",
+    "maxTimeHint": "(nos 3 últimos ciclos, toca som diferente)"
+  },
+  "buttons": {
+    "start": "Iniciar",
+    "stop": "Parar",
+    "testSound": "Testar som"
+  },
+  "status": {
+    "stopped": "Parado",
+    "completed": "Concluído",
+    "nextIn": "Tocará em",
+    "interval": "intervalo",
+    "remainingCycles": "ciclos restantes",
+    "alert": "(alerta)"
+  },
+  "hint": "Primeiro toque após o intervalo completo. Com \"Tempo máximo\" definido, o timer para ao final e os 3 últimos ciclos usam um alerta diferenciado.",
+  "alerts": {
+    "invalidInterval": "Defina um intervalo válido (> 0s).",
+    "invalidMaxTime": "O tempo máximo deve ser pelo menos igual a um ciclo completo."
+  },
+  "language": {
+    "select": "Idioma",
+    "pt": "Português",
+    "es": "Español",
+    "en": "English"
+  }
+}

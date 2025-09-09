@@ -1,0 +1,39 @@
+{
+  "app": {
+    "title": "Gentle Timer"
+  },
+  "controls": {
+    "interval": "Interval:",
+    "minutes": "min",
+    "seconds": "sec",
+    "volume": "Volume",
+    "maxTime": "Maximum time (optional):",
+    "maxMinutes": "Max Minutes",
+    "maxSeconds": "Max Seconds",
+    "maxTimeHint": "(in the last 3 cycles, plays different sound)"
+  },
+  "buttons": {
+    "start": "Start",
+    "stop": "Stop",
+    "testSound": "Test sound"
+  },
+  "status": {
+    "stopped": "Stopped",
+    "completed": "Completed",
+    "nextIn": "Will play in",
+    "interval": "interval",
+    "remainingCycles": "remaining cycles",
+    "alert": "(alert)"
+  },
+  "hint": "First beep after the complete interval. With \"Maximum time\" set, the timer stops at the end and the last 3 cycles use a different alert.",
+  "alerts": {
+    "invalidInterval": "Set a valid interval (> 0s).",
+    "invalidMaxTime": "Maximum time must be at least equal to one complete cycle."
+  },
+  "language": {
+    "select": "Language",
+    "pt": "Português",
+    "es": "Español",
+    "en": "English"
+  }
+}

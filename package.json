@@ -1,0 +1,19 @@
+{
+  "name": "handy-timer",
+  "version": "1.0.0",
+  "description": "A gentle timer with soft audio alerts",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "vue-i18n": "^9.8.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}
