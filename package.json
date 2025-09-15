@@ -1,6 +1,6 @@
 {
   "name": "handy-timer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A gentle timer with soft audio alerts",
   "main": "index.html",
   "scripts": {
