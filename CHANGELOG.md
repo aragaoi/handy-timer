@@ -1,6 +1,8 @@
-## What's Changed in v1.1.3
+## What's Changed in v1.1.4
 
-- 1.1.3 (bbae190)
+- 1.1.4 (d87cd6d)
+- fix: allow deploy workflow to run on manual trigger (64c8bbc)
+- 1.1.3 (d00ee3f)
 - fix: add workflow_dispatch and debug info to deploy workflow (dffca4d)
 - 1.1.2 (be465bd)
 - chore: update GitHub workflows for deployment and release (327f456)
@@ -26,4 +28,4 @@ You can install this as a PWA on supported devices or use it directly in your br
 
 ## Full Changelog
 
-See the [commit history](https://github.com/aragaoi/handy-timer/compare/...v1.1.3) for all changes.
+See the [commit history](https://github.com/aragaoi/handy-timer/compare/...v1.1.4) for all changes.
