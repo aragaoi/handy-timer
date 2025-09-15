@@ -38,7 +38,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Bump version and create tag
+      - name: Build
+        run: npm run build
+
+      - name: Test build
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Build failed - dist directory not found"
+            exit 1
+          fi
+          echo "Build successful - dist directory exists"
+
+      - name: Bump version
         run: |
           if [ "${{ github.event.inputs.release_type }}" = "patch" ]; then
             npm run version:patch
@@ -47,22 +58,12 @@ jobs:
           elif [ "${{ github.event.inputs.release_type }}" = "major" ]; then
             npm run version:major
           fi
-          
-          VERSION=$(node -p 'require("./package.json").version')
-          git add package.json package-lock.json
-          git commit -m "chore: bump version to $VERSION"
-          git tag "v$VERSION"
-          git push origin main
-          git push origin "v$VERSION"
-
-      - name: Build
-        run: npm run build
 
       - name: Generate Changelog
         id: changelog
         run: |
-          # Get the current version
-          VERSION=$(node -p 'require("./package.json").version')
+          # Get the new version from package.json
+          NEW_VERSION=$(node -p 'require("./package.json").version')
           
           # Get the previous tag
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
@@ -76,7 +77,7 @@ jobs:
           fi
           
           # Create changelog
-          CHANGELOG="## What's Changed
+          CHANGELOG="## What's Changed in v$NEW_VERSION
           
           $COMMITS
           
@@ -86,7 +87,7 @@ jobs:
           
           ## Full Changelog
           
-          See the [commit history](https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...v$VERSION) for all changes."
+          See the [commit history](https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...v$NEW_VERSION) for all changes."
           
           # Save to file for the next step
           echo "$CHANGELOG" > CHANGELOG.md
@@ -96,9 +97,14 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Get version
-        id: get_version
-        run: echo "version=$(node -p 'require("./package.json").version')" >> $GITHUB_OUTPUT
+      - name: Create tag and push
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to $VERSION"
+          git tag "v$VERSION"
+          git push origin main
+          git push origin "v$VERSION"
 
       - name: Create Release
         id: create_release
@@ -106,14 +112,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          release_name: Release v${{ steps.get_version.outputs.version }}
+          tag_name: v$(node -p 'require("./package.json").version')
+          release_name: Release v$(node -p 'require("./package.json").version')
           draft: false
           prerelease: false
           body: ${{ steps.changelog.outputs.changelog }}
 
-      - name: Deploy Release to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist

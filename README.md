@@ -178,18 +178,16 @@ git push origin main --tags
 The release process works in two stages:
 
 #### **Release Workflow (`release.yml`)**
+- ✅ Runs tests and builds the application
 - ✅ Bumps the version in `package.json` and `package-lock.json`
+- ✅ Generates changelog from commits since last release
 - ✅ Creates a git commit with the version bump
 - ✅ Creates a git tag with the new version
 - ✅ Pushes changes and tags to the repository
-- ✅ Builds the application
-- ✅ Generates changelog from commits since last release
 - ✅ Creates a GitHub release with dynamic changelog
-- ✅ Deploys to GitHub Pages
 
 #### **Deploy Workflow (`deploy.yml`)**
-- ✅ Runs tests on every push to main branch
-- ✅ Deploys to GitHub Pages after tests pass
+- ✅ Deploys to GitHub Pages when a release tag is pushed
 
 ### Workflows
 
@@ -199,11 +197,10 @@ The project uses three separate workflows:
 - **`test`**: Validates builds on pull requests
 
 #### **Deploy Workflow (`deploy.yml`)**
-- **`test`**: Runs tests on every push to main branch
-- **`build-and-deploy`**: Deploys to GitHub Pages after tests pass
+- **`build-and-deploy`**: Deploys to GitHub Pages on tag pushes
 
 #### **Release Workflow (`release.yml`)**
-- **`release`**: Complete release process - version bump, build, create release, and deploy
+- **`release`**: Complete release process - test, build, version bump, changelog, create release (triggers deploy)
 
 ### Version Numbering
 
