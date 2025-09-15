@@ -1,49 +1,28 @@
-name: CI/CD Pipeline
+name: Release
 
 on:
-  push:
-    branches: [main]
-    tags:
-      - 'v*'
-  pull_request:
-    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Release type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-
   release:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -51,8 +30,30 @@ jobs:
           node-version: "18"
           cache: "npm"
 
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Bump version and create tag
+        run: |
+          if [ "${{ github.event.inputs.release_type }}" = "patch" ]; then
+            npm run version:patch
+          elif [ "${{ github.event.inputs.release_type }}" = "minor" ]; then
+            npm run version:minor
+          elif [ "${{ github.event.inputs.release_type }}" = "major" ]; then
+            npm run version:major
+          fi
+          
+          VERSION=$(node -p 'require("./package.json").version')
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to $VERSION"
+          git tag "v$VERSION"
+          git push origin main
+          git push origin "v$VERSION"
 
       - name: Build
         run: npm run build
@@ -60,6 +61,9 @@ jobs:
       - name: Generate Changelog
         id: changelog
         run: |
+          # Get the current version
+          VERSION=$(node -p 'require("./package.json").version')
+          
           # Get the previous tag
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
           
@@ -82,7 +86,7 @@ jobs:
           
           ## Full Changelog
           
-          See the [commit history](https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.ref_name }}) for all changes."
+          See the [commit history](https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...v$VERSION) for all changes."
           
           # Save to file for the next step
           echo "$CHANGELOG" > CHANGELOG.md
@@ -92,14 +96,18 @@ jobs:
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      - name: Get version
+        id: get_version
+        run: echo "version=$(node -p 'require("./package.json").version')" >> $GITHUB_OUTPUT
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release v${{ steps.get_version.outputs.version }}
           draft: false
           prerelease: false
           body: ${{ steps.changelog.outputs.changelog }}
@@ -109,31 +117,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
-  test:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Test build
-        run: |
-          if [ ! -d "dist" ]; then
-            echo "Build failed - dist directory not found"
-            exit 1
-          fi
-          echo "Build successful - dist directory exists"

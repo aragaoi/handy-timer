@@ -151,7 +151,14 @@ This project uses automated release workflows with version bumping and GitHub re
 
 ### Creating a Release
 
-#### Using NPM Scripts (Recommended)
+#### Option 1: Using GitHub Actions (Recommended)
+1. Go to the "Actions" tab in the GitHub repository
+2. Select "Release" workflow
+3. Click "Run workflow"
+4. Choose the release type (patch/minor/major)
+5. Click "Run workflow"
+
+#### Option 2: Using NPM Scripts (Local)
 ```bash
 # For a patch release (1.0.0 -> 1.0.1)
 npm run version:patch
@@ -168,24 +175,35 @@ git push origin main --tags
 
 ### Release Workflow
 
-The release process automatically:
+The release process works in two stages:
+
+#### **Release Workflow (`release.yml`)**
 - ✅ Bumps the version in `package.json` and `package-lock.json`
 - ✅ Creates a git commit with the version bump
 - ✅ Creates a git tag with the new version
 - ✅ Pushes changes and tags to the repository
-- ✅ Triggers the CI/CD pipeline (on tag push)
 - ✅ Builds the application
 - ✅ Generates changelog from commits since last release
 - ✅ Creates a GitHub release with dynamic changelog
 - ✅ Deploys to GitHub Pages
 
-### CI/CD Pipeline
+#### **Deploy Workflow (`deploy.yml`)**
+- ✅ Runs tests on every push to main branch
+- ✅ Deploys to GitHub Pages after tests pass
 
-The project uses a unified CI/CD pipeline with three jobs:
+### Workflows
 
-- **`test`**: Runs on pull requests to validate builds
-- **`build-and-deploy`**: Runs on main branch pushes to deploy to GitHub Pages
-- **`release`**: Runs on tag pushes to create releases and deploy
+The project uses three separate workflows:
+
+#### **Pull Request Workflow (`pr.yml`)**
+- **`test`**: Validates builds on pull requests
+
+#### **Deploy Workflow (`deploy.yml`)**
+- **`test`**: Runs tests on every push to main branch
+- **`build-and-deploy`**: Deploys to GitHub Pages after tests pass
+
+#### **Release Workflow (`release.yml`)**
+- **`release`**: Complete release process - version bump, build, create release, and deploy
 
 ### Version Numbering
 
