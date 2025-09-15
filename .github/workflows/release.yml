@@ -113,12 +113,10 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          gh release create "v$VERSION" \
+            --title "Release v$VERSION" \
+            --notes "${{ steps.changelog.outputs.changelog }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v$(node -p 'require("./package.json").version')
-          release_name: Release v$(node -p 'require("./package.json").version')
-          draft: false
-          prerelease: false
-          body: ${{ steps.changelog.outputs.changelog }}
