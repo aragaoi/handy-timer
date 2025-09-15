@@ -1,13 +1,43 @@
-name: Release
+name: CI/CD Pipeline
 
 on:
   push:
+    branches: [main]
     tags:
       - 'v*'
+  pull_request:
+    branches: [main]
 
 jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
   release:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     
     steps:
       - name: Checkout
@@ -83,3 +113,37 @@ jobs:
           asset_path: ./dist
           asset_name: handy-timer-${{ github.ref_name }}.zip
           asset_content_type: application/zip
+
+      - name: Deploy Release to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Test build
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Build failed - dist directory not found"
+            exit 1
+          fi
+          echo "Build successful - dist directory exists"

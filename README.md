@@ -173,11 +173,19 @@ The release process automatically:
 - ✅ Creates a git commit with the version bump
 - ✅ Creates a git tag with the new version
 - ✅ Pushes changes and tags to the repository
-- ✅ Triggers the release workflow (on tag push)
+- ✅ Triggers the CI/CD pipeline (on tag push)
 - ✅ Builds the application
 - ✅ Generates changelog from commits since last release
 - ✅ Creates a GitHub release with dynamic changelog
-- ✅ Deploys to GitHub Pages (via existing deploy.yml workflow)
+- ✅ Deploys to GitHub Pages
+
+### CI/CD Pipeline
+
+The project uses a unified CI/CD pipeline with three jobs:
+
+- **`test`**: Runs on pull requests to validate builds
+- **`build-and-deploy`**: Runs on main branch pushes to deploy to GitHub Pages
+- **`release`**: Runs on tag pushes to create releases and deploy
 
 ### Version Numbering
 
