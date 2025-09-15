@@ -1,6 +1,8 @@
-## What's Changed in v1.1.1
+## What's Changed in v1.1.2
 
-- 1.1.1 (d021d0c)
+- 1.1.2 (20e2184)
+- chore: update GitHub workflows for deployment and release (327f456)
+- 1.1.1 (73c44f7)
 - fix: remove unnecessary blank line in release workflow (a417ea1)
 - refactor: update release workflow to use GitHub CLI for release creation (74d898f)
 - 1.1.0 (d015caa)
@@ -22,4 +24,4 @@ You can install this as a PWA on supported devices or use it directly in your br
 
 ## Full Changelog
 
-See the [commit history](https://github.com/aragaoi/handy-timer/compare/...v1.1.1) for all changes.
+See the [commit history](https://github.com/aragaoi/handy-timer/compare/...v1.1.2) for all changes.
