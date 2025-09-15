@@ -145,6 +145,46 @@ Perfect for desktop and mobile use. Can be installed as a PWA on supported devic
 3. Click "Install" to add the app to your home screen or desktop
 4. The app will work offline and behave like a native application
 
+## Release Process
+
+This project uses automated release workflows with version bumping and GitHub releases.
+
+### Creating a Release
+
+#### Using NPM Scripts (Recommended)
+```bash
+# For a patch release (1.0.0 -> 1.0.1)
+npm run version:patch
+
+# For a minor release (1.0.0 -> 1.1.0)
+npm run version:minor
+
+# For a major release (1.0.0 -> 2.0.0)
+npm run version:major
+
+# Then push the changes and tags
+git push origin main --tags
+```
+
+### Release Workflow
+
+The release process automatically:
+- ✅ Bumps the version in `package.json` and `package-lock.json`
+- ✅ Creates a git commit with the version bump
+- ✅ Creates a git tag with the new version
+- ✅ Pushes changes and tags to the repository
+- ✅ Triggers the release workflow (on tag push)
+- ✅ Builds the application
+- ✅ Generates changelog from commits since last release
+- ✅ Creates a GitHub release with dynamic changelog
+- ✅ Deploys to GitHub Pages (via existing deploy.yml workflow)
+
+### Version Numbering
+
+- **Patch** (1.0.0 → 1.0.1): Bug fixes, small improvements
+- **Minor** (1.0.0 → 1.1.0): New features, enhancements
+- **Major** (1.0.0 → 2.0.0): Breaking changes, major rewrites
+
 ## Contributing
 
 This project uses modern web technologies and follows clean code principles. The codebase is organized with:
@@ -153,3 +193,24 @@ This project uses modern web technologies and follows clean code principles. The
 - **Services**: Business logic in `/src/services/`
 - **Locales**: Internationalization files in `/src/locales/`
 - **Clean Architecture**: Separation of concerns and SOLID principles
+
+### Development Workflow
+
+1. Make your changes on a feature branch
+2. Test your changes thoroughly
+3. Create a pull request to `main`
+4. Once merged, create a release using the npm scripts above
+
+### Commit Message Conventions
+
+For better changelog generation, use clear and descriptive commit messages:
+
+- **feat**: New features (e.g., `feat: add multi-timer support`)
+- **fix**: Bug fixes (e.g., `fix: resolve timer synchronization issue`)
+- **docs**: Documentation changes (e.g., `docs: update README with new features`)
+- **style**: Code style changes (e.g., `style: format code with prettier`)
+- **refactor**: Code refactoring (e.g., `refactor: extract timer logic to service`)
+- **test**: Adding or updating tests (e.g., `test: add unit tests for timer service`)
+- **chore**: Maintenance tasks (e.g., `chore: update dependencies`)
+
+The release changelog will automatically include all commits since the last release.
