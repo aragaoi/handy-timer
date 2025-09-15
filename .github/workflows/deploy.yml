@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -26,6 +27,13 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     
     steps:
+      - name: Debug trigger info
+        run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Tag name: ${{ github.event.head_commit.message }}"
+          echo "Is tag push: ${{ startsWith(github.ref, 'refs/tags/v') }}"
+
       - name: Checkout
         uses: actions/checkout@v4
 
