@@ -1,6 +1,9 @@
 {
   "app": {
-    "title": "Gentle Timer"
+    "title": "Handy Timer",
+    "subtitle": "Gentle timer with soft sounds for productivity",
+    "singleTimer": "Single Timer",
+    "multiTimer": "Multiple Timers"
   },
   "controls": {
     "interval": "Interval:",
@@ -8,24 +11,16 @@
     "seconds": "sec",
     "volume": "Volume",
     "maxTime": "Maximum time (optional):",
+    "enableMaxTime": "With max time",
     "maxMinutes": "Max Minutes",
     "maxSeconds": "Max Seconds",
-    "maxTimeHint": "(in the last 3 cycles, plays different sound)"
-  },
-  "buttons": {
-    "start": "Start",
-    "stop": "Stop",
-    "testSound": "Test sound"
+    "enableWarningSound": "Warning sound in last cycles",
+    "warningCycles": "Warning cycles",
+    "cycles": "cycles"
   },
   "status": {
-    "stopped": "Stopped",
-    "completed": "Completed",
-    "nextIn": "Will play in",
-    "interval": "interval",
-    "remainingCycles": "remaining cycles",
     "alert": "(alert)"
   },
-  "hint": "First beep after the complete interval. With \"Maximum time\" set, the timer stops at the end and the last 3 cycles use a different alert.",
   "alerts": {
     "invalidInterval": "Set a valid interval (> 0s).",
     "invalidMaxTime": "Maximum time must be at least equal to one complete cycle."
@@ -35,5 +30,63 @@
     "pt": "Português",
     "es": "Español",
     "en": "English"
+  },
+  "multiTimer": {
+    "executionMode": "Execution Mode",
+    "sequence": "Sequential",
+    "simultaneous": "Simultaneous",
+    "startAll": "Start All",
+    "stopAll": "Stop",
+    "startSequence": "Start Sequence",
+    "stopSequence": "Stop Sequence",
+    "repeatSequence": "Repeat sequence indefinitely",
+    "addTimer": "Add Timer",
+    "addFirstTimer": "Add First Timer",
+    "removeTimer": "Remove Timer",
+    "noTimers": "No timers created yet."
+  },
+  "timerCard": {
+    "timerName": "Timer Name"
+  },
+  "buttons": {
+    "start": "Start",
+    "stop": "Stop",
+    "testSound": "Test sound",
+    "reset": "Reset"
+  },
+  "statusPanel": {
+    "title": "Timer Status",
+    "idle": "Stopped",
+    "running": "Running",
+    "alert": "Alert",
+    "noActiveTimers": "No active timers",
+    "interval": "Interval",
+    "remainingCycles": "Remaining cycles",
+    "completed": "Completed",
+    "pending": "Pending",
+    "activeTimers": "active timers",
+    "allTimers": "All Timers",
+    "next": "Next"
+  },
+  "soundTest": {
+    "testSounds": "Test Sounds",
+    "ping": "Normal Ping",
+    "pingAlt": "Alert Ping",
+    "pingFinal": "Final Ping",
+    "volume": "Volume"
+  },
+  "reset": {
+    "resetAll": "Reset All",
+    "confirmReset": "Are you sure you want to reset all timers? This action cannot be undone."
+  },
+  "description": {
+    "title": "Current Behavior",
+    "minute": "min",
+    "second": "sec",
+    "basic": "The timer will sound every <strong>{interval}</strong>.",
+    "withMaxTime": "With maximum time of <em>{maxTime}</em>, the timer will run <strong>{totalCycles} cycles</strong> and stop automatically.",
+    "noMaxTime": "With no maximum time set, the timer will continue indefinitely.",
+    "warningCycles": "In the last <em>{cycles} cycles</em>, it will play a different alert sound.",
+    "warningEveryCycle": "It will play an alert sound every cycle."
   }
 }

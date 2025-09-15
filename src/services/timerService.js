@@ -1,5 +1,6 @@
 import audioService from "./audioService.js";
 import i18n from "../i18n";
+import storageService from "./storageService.js";
 
 class TimerService {
   constructor() {
@@ -10,6 +11,8 @@ class TimerService {
     this.totalCycles = null;
     this.intervalMs = 0;
     this.volume = 0.4;
+    this.warningCycles = 3;
+    this.enableWarningSound = true;
     this.listeners = new Set();
   }
 
@@ -19,7 +22,23 @@ class TimerService {
   }
 
   notify() {
-    this.listeners.forEach((callback) => callback(this.getState()));
+    const state = this.getState();
+    this.listeners.forEach((callback) => callback(state));
+    this.saveToStorage();
+  }
+
+  saveToStorage() {
+    storageService.saveState({
+      singleTimer: {
+        minutes: Math.floor(this.intervalMs / 60000),
+        seconds: Math.floor((this.intervalMs % 60000) / 1000),
+        maxMinutes: Math.floor(this.maxMs / 60000),
+        maxSeconds: Math.floor((this.maxMs % 60000) / 1000),
+        volume: this.volume,
+        enableWarningSound: this.enableWarningSound,
+        warningCycles: this.warningCycles,
+      },
+    });
   }
 
   getState() {
@@ -29,6 +48,10 @@ class TimerService {
       totalCycles: this.totalCycles,
       intervalMs: this.intervalMs,
       volume: this.volume,
+      warningCycles: this.warningCycles,
+      enableWarningSound: this.enableWarningSound,
+      lastTarget: this.lastTarget,
+      startTime: this.startTime,
       status: this.getStatus(),
     };
   }
@@ -50,7 +73,9 @@ class TimerService {
     if (this.totalCycles !== null) {
       const remaining = Math.max(0, this.totalCycles - this.cycleCount);
       extra += ` | ${i18n.global.t("status.remainingCycles")}: ${remaining}`;
-      if (remaining <= 3) extra += ` ${i18n.global.t("status.alert")}`;
+      if (this.enableWarningSound && remaining <= this.warningCycles) {
+        extra += ` ${i18n.global.t("status.alert")}`;
+      }
     }
 
     return `${i18n.global.t("status.nextIn")} ${mm}:${ss}${extra}`;
@@ -62,12 +87,17 @@ class TimerService {
     const delay = Math.max(0, next - now);
 
     this.timerId = setTimeout(() => {
-      if (this.totalCycles !== null) {
-        const remainingAfterThis = this.totalCycles - 1 - this.cycleCount;
-        if (remainingAfterThis <= 2) {
-          audioService.pingAlt(this.volume);
+      if (this.enableWarningSound) {
+        if (this.totalCycles !== null) {
+          const remainingAfterThis = this.totalCycles - 1 - this.cycleCount;
+          if (remainingAfterThis < this.warningCycles) {
+            audioService.pingAlt(this.volume);
+          } else {
+            audioService.ping(this.volume);
+          }
         } else {
-          audioService.ping(this.volume);
+          // No max time set - play warning at the end of each cycle
+          audioService.pingAlt(this.volume);
         }
       } else {
         audioService.ping(this.volume);
@@ -109,20 +139,44 @@ class TimerService {
 
     this.running = true;
     this.cycleCount = 0;
-    this.lastTarget = performance.now();
+    this.startTime = performance.now();
+    this.lastTarget = this.startTime;
     this.notify();
     this.scheduleNext();
+
+    // Update lastTarget continuously for countdown
+    this.updateInterval = setInterval(() => {
+      if (this.running) {
+        this.lastTarget = this.startTime + this.cycleCount * this.intervalMs;
+        this.notify();
+      }
+    }, 100);
+
     return true;
   }
 
   stop(completed = false) {
     this.running = false;
     clearTimeout(this.timerId);
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+      this.updateInterval = null;
+    }
     this.notify();
   }
 
   setVolume(volume) {
     this.volume = volume;
+    this.notify();
+  }
+
+  setWarningCycles(warningCycles) {
+    this.warningCycles = warningCycles;
+    this.notify();
+  }
+
+  setEnableWarningSound(enableWarningSound) {
+    this.enableWarningSound = enableWarningSound;
     this.notify();
   }
 

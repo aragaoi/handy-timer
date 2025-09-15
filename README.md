@@ -1,46 +1,58 @@
 # Handy Timer
 
-A gentle timer with soft audio alerts built with Vue.js. Perfect for productivity, meditation, and time management.
+A gentle timer with soft audio alerts built with Vue.js. Perfect for productivity, meditation, and time management with both single and multiple timer modes.
 
 ## Features
 
-- **Recurrent Alerts**: Continuous, repeating timer that keeps you on track with regular gentle reminders
+### 🎯 Core Functionality
+- **Single Timer Mode**: Simple, focused timer for individual tasks
+- **Multiple Timer Mode**: Manage multiple timers with sequential or simultaneous execution
+- **Recurrent Alerts**: Continuous, repeating timers that keep you on track with regular gentle reminders
 - **Soft Audio Alerts**: Gentle, non-intrusive sounds that won't startle you
 - **Customizable Intervals**: Set any interval from seconds to hours
-- **Maximum Time Limit**: Optional total duration with different alert sounds for the last 3 cycles
-- **Volume Control**: Adjustable audio volume
+- **Maximum Time Limit**: Optional total duration with different alert sounds for the last cycles
+- **Volume Control**: Adjustable audio volume for each timer
 - **Real-time Status**: Live countdown showing time until next alert
 - **Clean Interface**: Simple, distraction-free design
+
+### 🌍 Internationalization
+- **Multi-language Support**: English, Spanish, and Portuguese (Brazilian)
+- **Language Selector**: Easy switching between supported languages
+- **Localized Interface**: All text and controls adapt to selected language
+
+### ⚙️ Advanced Features
+- **Execution Modes**: Sequential (one after another) or simultaneous (all at once) timer execution
+- **Warning System**: Different alert sounds for the last few cycles before completion
+- **Persistent Storage**: Settings and timers are saved and restored between sessions
+- **Sound Testing**: Preview different alert sounds before starting
+- **Reset Functionality**: Reset all timers with confirmation
+- **PWA Support**: Install as a Progressive Web App on mobile and desktop devices
 
 ## Use Cases
 
 ### 🍅 Pomodoro Technique
-
-Set 25-minute work intervals with 5-minute breaks. The gentle alerts help you maintain focus without being disruptive.
+Set 25-minute work intervals with 5-minute breaks. Use multiple timers for different work sessions or the single timer for focused work periods.
 
 ### 🧘 Meditation & Mindfulness
-
-Perfect for timed meditation sessions. The soft sounds provide gentle reminders without breaking your concentration.
+Perfect for timed meditation sessions. The soft sounds provide gentle reminders without breaking your concentration. Use sequential timers for different meditation phases.
 
 ### ⏰ Study Sessions
-
-Set study intervals to maintain focus and take regular breaks. The different alert sounds help you know when you're approaching the end of your session.
+Set study intervals to maintain focus and take regular breaks. The different alert sounds help you know when you're approaching the end of your session. Multiple timers allow for complex study schedules.
 
 ### 🏃‍♂️ Exercise & Fitness
-
-Time your workout intervals, rest periods, or HIIT sessions with gentle audio cues.
+Time your workout intervals, rest periods, or HIIT sessions with gentle audio cues. Use simultaneous timers for different exercise phases.
 
 ### 💤 Sleep & Relaxation
-
-Use for sleep timers or relaxation exercises with soft, calming audio alerts.
+Use for sleep timers or relaxation exercises with soft, calming audio alerts. Sequential timers work great for bedtime routines.
 
 ### 🍳 Cooking & Kitchen
-
-Time cooking steps, baking, or brewing without harsh alarms that might disturb others.
+Time cooking steps, baking, or brewing without harsh alarms that might disturb others. Multiple timers help manage complex recipes.
 
 ### 📝 Timed Tests & Assessments
-
 Perfect for timed exams, quizzes, and assessments. The gentle alerts help students stay aware of time without being disruptive during important tests. Great for controlling time allocation per question and maintaining focus throughout the assessment.
+
+### 🎯 Workflow Management
+Use multiple timers to manage different tasks throughout your day, with sequential execution for structured workflows or simultaneous execution for parallel tasks.
 
 ## Quick Start
 
@@ -60,24 +72,44 @@ Perfect for timed exams, quizzes, and assessments. The gentle alerts help studen
 
 ## How to Use
 
+### Single Timer Mode
 1. **Set your interval**: Choose minutes and seconds for your timer
 2. **Adjust volume**: Use the volume slider to set your preferred level
 3. **Optional maximum time**: Set a total duration if you want the timer to stop automatically
-4. **Start**: Click the Start button to begin
-5. **Test sound**: Use "Testar som" to preview the audio alert
+4. **Configure warnings**: Enable warning sounds for the last few cycles
+5. **Test sound**: Use the "Test sound" button to preview the audio alert
+6. **Start**: Click the Start button to begin
+
+### Multiple Timer Mode
+1. **Add timers**: Click the "+" button to create new timers
+2. **Configure each timer**: Set intervals, max time, volume, and warning settings for each timer
+3. **Choose execution mode**: Select between sequential (one after another) or simultaneous (all at once)
+4. **Start execution**: Use "Start All" or "Start Sequence" to begin
+5. **Manage timers**: Add, remove, or modify timers as needed
+
+### General Features
+- **Language selection**: Use the language selector in the top-right corner
+- **Sound testing**: Test different alert sounds before starting
+- **Reset functionality**: Reset all timers and settings when needed
+- **Persistent storage**: All settings are automatically saved and restored
 
 ## Audio Features
 
 - **Regular alerts**: Gentle, pleasant tones for normal intervals
-- **Warning alerts**: Different sound for the last 3 cycles when maximum time is set
+- **Warning alerts**: Different sound for the last few cycles when maximum time is set
 - **Completion sound**: Special tone when the maximum time is reached
+- **Sound testing**: Preview all alert types before starting
+- **Volume control**: Individual volume control for each timer
 
 ## Technology
 
 - **Vue.js 3** with Composition API
+- **Vue i18n** for internationalization
 - **Vite** for fast development and building
 - **Web Audio API** for high-quality sound generation
 - **Modern CSS** with CSS custom properties
+- **Progressive Web App** (PWA) support
+- **Local Storage** for persistent settings
 
 ## Development
 
@@ -102,5 +134,22 @@ Works in all modern browsers that support:
 - ES6 modules
 - Web Audio API
 - CSS Grid
+- Local Storage
 
-Perfect for desktop and mobile use.
+Perfect for desktop and mobile use. Can be installed as a PWA on supported devices.
+
+## Installation as PWA
+
+1. Open the app in a supported browser
+2. Look for the "Install" button in your browser's address bar or menu
+3. Click "Install" to add the app to your home screen or desktop
+4. The app will work offline and behave like a native application
+
+## Contributing
+
+This project uses modern web technologies and follows clean code principles. The codebase is organized with:
+
+- **Components**: Reusable Vue components in `/src/components/`
+- **Services**: Business logic in `/src/services/`
+- **Locales**: Internationalization files in `/src/locales/`
+- **Clean Architecture**: Separation of concerns and SOLID principles

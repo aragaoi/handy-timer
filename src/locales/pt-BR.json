@@ -1,6 +1,9 @@
 {
   "app": {
-    "title": "Timer com som suave"
+    "title": "Handy Timer",
+    "subtitle": "Timer com som suave para produtividade",
+    "singleTimer": "Timer Único",
+    "multiTimer": "Múltiplos Timers"
   },
   "controls": {
     "interval": "Intervalo:",
@@ -8,24 +11,16 @@
     "seconds": "seg",
     "volume": "Volume",
     "maxTime": "Tempo máximo (opcional):",
+    "enableMaxTime": "Com tempo máximo",
     "maxMinutes": "Máx. Minutos",
     "maxSeconds": "Máx. Segundos",
-    "maxTimeHint": "(nos 3 últimos ciclos, toca som diferente)"
-  },
-  "buttons": {
-    "start": "Iniciar",
-    "stop": "Parar",
-    "testSound": "Testar som"
+    "enableWarningSound": "Som de alerta nos últimos ciclos",
+    "warningCycles": "Ciclos de alerta",
+    "cycles": "ciclos"
   },
   "status": {
-    "stopped": "Parado",
-    "completed": "Concluído",
-    "nextIn": "Tocará em",
-    "interval": "intervalo",
-    "remainingCycles": "ciclos restantes",
     "alert": "(alerta)"
   },
-  "hint": "Primeiro toque após o intervalo completo. Com \"Tempo máximo\" definido, o timer para ao final e os 3 últimos ciclos usam um alerta diferenciado.",
   "alerts": {
     "invalidInterval": "Defina um intervalo válido (> 0s).",
     "invalidMaxTime": "O tempo máximo deve ser pelo menos igual a um ciclo completo."
@@ -35,5 +30,63 @@
     "pt": "Português",
     "es": "Español",
     "en": "English"
+  },
+  "multiTimer": {
+    "executionMode": "Modo de execução",
+    "sequence": "Sequencial",
+    "simultaneous": "Simultâneo",
+    "startAll": "Iniciar todos",
+    "stopAll": "Parar",
+    "startSequence": "Iniciar Sequência",
+    "stopSequence": "Parar Sequência",
+    "repeatSequence": "Repetir sequência indefinidamente",
+    "addTimer": "Adicionar Timer",
+    "addFirstTimer": "Adicionar Primeiro Timer",
+    "removeTimer": "Remover Timer",
+    "noTimers": "Nenhum timer criado ainda."
+  },
+  "timerCard": {
+    "timerName": "Nome do Timer"
+  },
+  "buttons": {
+    "start": "Iniciar",
+    "stop": "Parar",
+    "testSound": "Testar som",
+    "reset": "Reiniciar"
+  },
+  "statusPanel": {
+    "title": "Status do Timer",
+    "idle": "Parado",
+    "running": "Executando",
+    "alert": "Alerta",
+    "noActiveTimers": "Nenhum timer ativo",
+    "interval": "Intervalo",
+    "remainingCycles": "Ciclos restantes",
+    "completed": "Concluído",
+    "pending": "Aguardando",
+    "activeTimers": "timers ativos",
+    "allTimers": "Todos os Timers",
+    "next": "Próximo"
+  },
+  "soundTest": {
+    "testSounds": "Testar Sons",
+    "ping": "Ping Normal",
+    "pingAlt": "Ping de Alerta",
+    "pingFinal": "Ping Final",
+    "volume": "Volume"
+  },
+  "reset": {
+    "resetAll": "Resetar Tudo",
+    "confirmReset": "Tem certeza que deseja resetar todos os timers? Esta ação não pode ser desfeita."
+  },
+  "description": {
+    "title": "Comportamento Atual",
+    "minute": "min",
+    "second": "seg",
+    "basic": "O timer tocará um som a cada <strong>{interval}</strong>.",
+    "withMaxTime": "Com tempo máximo de <em>{maxTime}</em>, o timer executará <strong>{totalCycles} ciclos</strong> e parará automaticamente.",
+    "noMaxTime": "Sem tempo máximo definido, o timer continuará indefinidamente.",
+    "warningCycles": "Nos últimos <em>{cycles} ciclos</em>, tocará um som de alerta diferente.",
+    "warningEveryCycle": "Tocará um som de alerta a cada ciclo."
   }
 }

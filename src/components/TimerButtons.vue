@@ -6,7 +6,6 @@
     <button id="stop" @click="onStop" :disabled="!running">
       {{ $t("buttons.stop") }}
     </button>
-    <button id="test" @click="onTest">{{ $t("buttons.testSound") }}</button>
   </div>
 </template>
 
@@ -19,7 +18,7 @@ export default {
       default: false,
     },
   },
-  emits: ["start", "stop", "test"],
+  emits: ["start", "stop"],
   setup(props, { emit }) {
     const onStart = () => {
       emit("start");
@@ -29,14 +28,9 @@ export default {
       emit("stop");
     };
 
-    const onTest = () => {
-      emit("test");
-    };
-
     return {
       onStart,
       onStop,
-      onTest,
     };
   },
 };
