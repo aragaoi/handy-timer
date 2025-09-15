@@ -105,7 +105,7 @@ jobs:
           # Add changelog to the version commit
           git add CHANGELOG.md
           git commit --amend --no-edit
-          
+
           # Push the version commit and tag
           VERSION=$(node -p 'require("./package.json").version')
           git push origin main
