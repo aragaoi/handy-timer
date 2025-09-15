@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       release_type:
@@ -13,19 +16,20 @@ on:
           - minor
           - major
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment and releases
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -54,11 +58,14 @@ jobs:
 
       - name: Bump version
         run: |
-          if [ "${{ github.event.inputs.release_type }}" = "patch" ]; then
+          # Use input release_type if available (manual trigger), otherwise default to patch
+          RELEASE_TYPE="${{ github.event.inputs.release_type || 'patch' }}"
+          
+          if [ "$RELEASE_TYPE" = "patch" ]; then
             npm run version:patch
-          elif [ "${{ github.event.inputs.release_type }}" = "minor" ]; then
+          elif [ "$RELEASE_TYPE" = "minor" ]; then
             npm run version:minor
-          elif [ "${{ github.event.inputs.release_type }}" = "major" ]; then
+          elif [ "$RELEASE_TYPE" = "major" ]; then
             npm run version:major
           fi
 
